@@ -224,7 +224,7 @@ window.addEventListener("click", () => {
   }
  
   setTimeout(() => {
-  window.location.href = ".../Home.vue";
+  window.location.href = "../components/HomeMap";
 }, 3500); 
 
 });
