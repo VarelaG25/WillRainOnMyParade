@@ -9,6 +9,8 @@ import '@maptiler/sdk/dist/maptiler-sdk.css';
 import { GeocodingControl } from '@maptiler/geocoding-control/maptilersdk';
 import '@maptiler/geocoding-control/style.css';
 import { useLocationStore } from '../stores/Location';
+import { climaConResumen } from '../../back/conexion';
+
 
 const locationStore = useLocationStore();
 
@@ -40,7 +42,7 @@ onMounted(() => {
     map.addControl(gc, 'top-left');
 
     // Captura la ubicación seleccionada
-    gc.on('select', (e: any) => {
+    gc.on('select', async (e: any) => {
         if (!e || !e.feature || !e.feature.center) return;
 
         const [lngSelected, latSelected] = e.feature.center;
@@ -53,6 +55,16 @@ onMounted(() => {
         console.log('Longitud:', selectedLng.value);
 
         locationStore.setLocation(latSelected, lngSelected);
+
+    (async () => {
+        const resumen = await climaConResumen({
+            start: '2025-09-15T00',
+            end: '2025-09-20T00',
+            latitud: 25.68,
+            longitud: -100.31
+        });
+        console.log(resumen);
+    })();
 
         // Si el marker ya existe, solo movemos su posición
         // Si el marker ya existe, solo movemos su posición
